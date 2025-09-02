@@ -16,9 +16,28 @@ import random
 # Third-party libraries
 import numpy as np
 
+class CrossEntropyCost(object): 
+
+    @staticmethod 
+    def fn(a, y):
+        """
+        Retorna el costo asociado a la salida "a" y la salida deseada "y". Nota que np.nan_to_num 
+        se usa para tener estabilidad númerrica. Si "a" o "y" tienen 1.0 en las mismas entradas, 
+        la expresión (1-y)*np.log(1-a) puede producir nan por log(0), y np.nan_to_num corrige esos nan a 0.0. 
+        np.sum(...) suma todos los elementos resultantes y devuelve el costo escalar total. 
+        """    
+        return np.sum(-y*np.log(a)-(1-y)*np.log(1-a))
+    
+    def delta(a, y):
+        """
+        Retorna la señal de error en la capa de salida 
+        (el vector δ = ∂C/∂z para la capa de salida).
+        """
+        return (a-y)
+    
 class Network(object):
 
-    def __init__(self, sizes):
+    def __init__(self, sizes, cost = CrossEntropyCost): # Añadí el paramétro cost = CrossEntropyCost
         """The list ``sizes`` contains the number of neurons in the
         respective layers of the network.  For example, if the list
         was [2, 3, 1] then it would be a three-layer network, with the
@@ -34,6 +53,7 @@ class Network(object):
         self.biases = [np.random.randn(y, 1) for y in sizes[1:]]
         self.weights = [np.random.randn(y, x)
                         for x, y in zip(sizes[:-1], sizes[1:])]
+        self.cost=cost
 
     def feedforward(self, a):
         """Return the output of the network if ``a`` is input."""
@@ -103,8 +123,7 @@ class Network(object):
             activation = sigmoid(z)
             activations.append(activation)
         # backward pass
-        delta = self.cost_derivative(activations[-1], y) * \
-            sigmoid_prime(zs[-1])
+        delta = (self.cost).delta(activations[-1], y) # La delta de la función de costo cross entropy
         nabla_b[-1] = delta
         nabla_w[-1] = np.dot(delta, activations[-2].transpose())
         # Note that the variable l in the loop below is used a little

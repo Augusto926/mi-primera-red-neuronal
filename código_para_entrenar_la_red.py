@@ -22,7 +22,7 @@ Crea una instancia de la clase Network con la arquitectura:
 """
 
 # Define los hiperparamétros del metodo "GSD" de la clase "network"
-net.SGD(training_data, 30, 10, 0.1, test_data=test_data)
+net.SGD(training_data, 3, 10, 0.1, test_data=test_data)
 """
 El valor de cada hiperparametro es:
 
