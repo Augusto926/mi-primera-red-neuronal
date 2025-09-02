@@ -1,3 +1,4 @@
+import numpy as np
 # Esta clase agrupa la lógica de la función de costo de Entropía Cruzada (cross-entropy).
 class CrossEntropyCost(object): 
 
@@ -10,5 +11,12 @@ class CrossEntropyCost(object):
         np.sum(...) suma todos los elementos resultantes y devuelve el costo escalar total. 
         """    
         return np.sum(-y*np.log(a)-(1-y)*np.log(1-a))
+    
+    def delta(a, y):
+        """
+        Retorna la señal de error en la capa de salida 
+        (el vector δ = ∂C/∂z para la capa de salida).
+        """
+        return (a-y)
 
 
