@@ -22,7 +22,7 @@ Crea una instancia de la clase Network con la arquitectura:
 """
 
 # Define los hiperparamétros del metodo "GSD" de la clase "network"
-net.SGD(training_data, 3, 10, 0.1, test_data=test_data)
+net.SGD(training_data, 30, 10, 0.1, test_data=test_data)
 """
 El valor de cada hiperparametro es:
 
@@ -33,8 +33,8 @@ mini_batch_size=10,
 eta=0.1.
 """
 
-# Crea un fichero llamado "red_prueba1.pkl" en modo escritura binaria 'wb'
-archivo = open("red_prueba1.pkl",'wb')
+# Crea un fichero llamado "mejora_1_de_la_red_network.pkl" en modo escritura binaria 'wb'
+archivo = open("mejora_1_de_la_red_network.pkl",'wb')
 # Guarda el objeto net y lo escribe en el fichero
 pickle.dump(net, archivo)
 # Cierra el fichero y asegura que los datos se hayan escrito
