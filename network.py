@@ -53,6 +53,8 @@ class Network(object):
         self.biases = [np.random.randn(y, 1) for y in sizes[1:]]
         self.weights = [np.random.randn(y, x)/np.sqrt(x)          # Implementación de la mejora para la inicialización de los pesos
                         for x, y in zip(sizes[:-1], sizes[1:])]
+        self.vel_w = [np.zeros(w.shape) for w in self.weights]    # Inicializa las velocidades de w con ceros para la implementación de BackProp con inercia
+        self.vel_b = [np.zeros(b.shape) for b in self.biases]     # Inicializa las velocidades de b con ceros para la implementación de BackProp con inercia
         self.cost=cost
 
     def feedforward(self, a):
@@ -90,7 +92,7 @@ class Network(object):
             else:
                 print("Epoch {0} complete".format(j))
 
-    def update_mini_batch(self, mini_batch, eta):
+    def update_mini_batch(self, mini_batch, eta, beta): # Hay un nuevo hiperparámetro "beta" para la implementación de BackProp con inercia
         """Update the network's weights and biases by applying
         gradient descent using backpropagation to a single mini batch.
         The ``mini_batch`` is a list of tuples ``(x, y)``, and ``eta``
@@ -101,10 +103,14 @@ class Network(object):
             delta_nabla_b, delta_nabla_w = self.backprop(x, y)
             nabla_b = [nb+dnb for nb, dnb in zip(nabla_b, delta_nabla_b)]
             nabla_w = [nw+dnw for nw, dnw in zip(nabla_w, delta_nabla_w)]
-        self.weights = [w-(eta/len(mini_batch))*nw
-                        for w, nw in zip(self.weights, nabla_w)]
-        self.biases = [b-(eta/len(mini_batch))*nb
-                       for b, nb in zip(self.biases, nabla_b)]
+        self.vel_w = [beta*vel_w-(eta/len(mini_batch))*nw # Actualiza las velocidades w para la implementación de BackProp con inercia
+                        for vel_w, nw in zip(self.vel_w, nabla_w)]
+        self.vel_b = [beta*vel_b-(eta/len(mini_batch))*nw # Actualiza las velocidades b para la implementación de BackProp con inercia
+                        for vel_b, nw in zip(self.vel_b, nabla_b)]
+        self.weights = [w+vw # Nueva actualizacion de los pesos w con la implementación de BackProp con inercia
+                        for w, vw in zip(self.weights, self.vel_w)]
+        self.biases = [b+vb # Nueva actualizacion de los sesgos b con la implementación de BackProp con inercia
+                        for b, vb in zip(self.biases, self.vel_b)]
 
     def backprop(self, x, y):
         """Return a tuple ``(nabla_b, nabla_w)`` representing the
