@@ -34,7 +34,7 @@ eta=0.1.
 """
 
 # Crea un fichero llamado "mejora_1_de_la_red_network.pkl" en modo escritura binaria 'wb'
-archivo = open("mejora_1_de_la_red_network.pkl",'wb')
+archivo = open("mejora_2_de_la_red_network.pkl",'wb')
 # Guarda el objeto net y lo escribe en el fichero
 pickle.dump(net, archivo)
 # Cierra el fichero y asegura que los datos se hayan escrito
