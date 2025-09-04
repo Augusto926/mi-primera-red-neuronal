@@ -33,7 +33,7 @@ mini_batch_size=10,
 eta=0.1.
 """
 
-# Crea un fichero llamado "mejora_1_de_la_red_network.pkl" en modo escritura binaria 'wb'
+# Crea un fichero llamado "mejora_2_de_la_red_network.pkl" en modo escritura binaria 'wb'
 archivo = open("mejora_2_de_la_red_network.pkl",'wb')
 # Guarda el objeto net y lo escribe en el fichero
 pickle.dump(net, archivo)
