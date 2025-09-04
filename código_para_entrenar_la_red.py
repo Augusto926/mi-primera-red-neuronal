@@ -22,7 +22,7 @@ Crea una instancia de la clase Network con la arquitectura:
 """
 
 # Define los hiperparamétros del metodo "GSD" de la clase "network"
-net.SGD(training_data, 30, 10, 0.1, test_data=test_data)
+net.SGD(training_data, 30, 10, 0.1, 0.9, test_data=test_data)
 """
 El valor de cada hiperparametro es:
 
@@ -30,7 +30,9 @@ epochs=30,
 
 mini_batch_size=10,
 
-eta=0.1.
+eta=0.1,
+
+beta=0.9.
 """
 
 # Crea un fichero llamado "mejora_3_de_la_red_network.pkl" en modo escritura binaria 'wb'
